@@ -3,49 +3,88 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
       "subscriptionId": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "b0a62e67-fe11-4a84-b57d-860652f00af3",
+            "metadata": {
+                "description": "subscription"
+            }
       },
       "name": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "LA-Standard-Dennis",
+            "metadata": {
+                "description": "name"
+            }
       },
       "location": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "location"
+            }
       },
       "hostingPlanName": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "Hosting-Dennis",
+            "metadata": {
+                "description": "Hosting"
+            }
       },
       "serverFarmResourceGroup": {
-          "type": "string"
-      },
-      "alwaysOn": {
-          "type": "bool"
+          "type": "string",
+          "defaultValue": "[resourceGroup().name]",
+            "metadata": {
+                "description": "SF RG"
+            }
       },
       "use32BitWorkerProcess": {
-          "type": "bool"
+          "type": "bool",
+          "defaultValue": false,
+            "metadata": {
+                "description": "use32BitWorkerProcess"
+            }
       },
       "ftpsState": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "ftpsState",
+            "metadata": {
+                "description": "ftpsState"
+            }
       },
       "storageAccountName": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "storage-Dennis",
+            "metadata": {
+                "description": "storage-Dennis"
+            }
       },
       "netFrameworkVersion": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "6.0",
+            "metadata": {
+                "description": "netFrameworkVersion"
+            }
       },
       "sku": {
-          "type": "string"
-      },
-      "skuCode": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "WS1",
+            "metadata": {
+                "description": "sku"
+            }
       },
       "workerSize": {
-          "type": "string"
-      },
-      "workerSizeId": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "1",
+            "metadata": {
+                "description": "workerSize"
+            }
       },
       "numberOfWorkers": {
-          "type": "string"
+          "type": "string",
+          "defaultValue": "1",
+            "metadata": {
+                "description": "numberOfWorkers"
+            }
       }
   },
   "variables": {},
@@ -106,7 +145,7 @@
                       },
                       {
                           "name": "AzureFunctionsJobHost__extensionBundle__version",
-                          "value": "[1.*, 2.0.0)"
+                          "value": "(1.*, 2.0.0)"
                       },
                       {
                           "name": "APP_KIND",
@@ -139,14 +178,12 @@
           "properties": {
               "name": "[parameters('hostingPlanName')]",
               "workerSize": "[parameters('workerSize')]",
-              "workerSizeId": "[parameters('workerSizeId')]",
               "numberOfWorkers": "[parameters('numberOfWorkers')]",
               "maximumElasticWorkerCount": "20",
               "zoneRedundant": false
           },
           "sku": {
               "Tier": "[parameters('sku')]",
-              "Name": "[parameters('skuCode')]"
           }
       },
       {
