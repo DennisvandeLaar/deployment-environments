@@ -1,32 +1,58 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// =========== main.bicep ===========
 
-@description('Location to deploy the environment resources')
-param location string = resourceGroup().location
+// Setting target scope
+targetScope = 'subscription'
 
-param resourcePrefix string = 'a${uniqueString(resourceGroup().id)}'
+@minLength(1)
+param location string = 'westeurope'
 
-@description('Tags to apply to environment resources')
-param tags object = {}
+@maxLength(10)
+@minLength(2)
+param name string = 'integrate'
 
-var hostingPlanName = '${resourcePrefix}-hp'
-var webAppName = '${resourcePrefix}-hp'
+@allowed([
+  'dev'
+  'test'
+  'prod'
+])
+param environment string
 
-resource hostingPlan 'Microsoft.Web/serverfarms@2022-03-01' = {
-  name: hostingPlanName
+// =================================
+
+// Create logging resource group
+resource logRg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+  name: 'rg-${name}-log-${environment}'
   location: location
-  sku: {
-    tier: 'Standard'
-    name: 'S1'
-  }
-  tags: tags
 }
 
-resource webApp 'Microsoft.Web/sites@2022-03-01' = {
-  name: webAppName
-  location: location
-  properties: {
-    serverFarmId: hostingPlan.id
+// Create Log Analytics workspace
+module logws './loganalytics.bicep' = {
+  name: 'LogWorkspaceDeployment'
+  scope: logRg
+  params: {
+    environment: environment
+    name: name
+    location: location
   }
-  tags: tags
 }
+
+// Create orchestration resource group
+resource orchRg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+  name: 'rg-${name}-orchestration-${environment}'
+  location: location
+}
+
+// Deploy the logic app service container
+module logic './logic-service.bicep' = {
+  name: 'LogicAppServiceDeployment'
+  scope: orchRg // Deploy to our new or existing RG
+  params: { // Pass on shared parameters
+    environment: environment
+    name: name
+    logwsid: logws.outputs.id
+    location: location
+  }
+}
+
+output logic_app string = logic.outputs.app
+output logic_plan string = logic.outputs.plan
