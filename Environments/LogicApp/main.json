@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.14.6.61914",
-      "templateHash": "200939587571373664"
+      "templateHash": "6783911505215992758"
     }
   },
   "parameters": {
@@ -141,7 +141,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.14.6.61914",
-              "templateHash": "10542945396404210246"
+              "templateHash": "5464540868511041575"
             }
           },
           "parameters": {
@@ -153,10 +153,12 @@
               }
             },
             "environment": {
-              "type": "string"
+              "type": "string",
+              "defaultValue": "Development"
             },
             "name": {
-              "type": "string"
+              "type": "string",
+              "defaultValue": "Dev_LogicApp"
             },
             "logwsid": {
               "type": "string"

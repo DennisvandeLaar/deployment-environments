@@ -17,8 +17,6 @@ param name string = 'integrate'
 ])
 param environment string
 
-// =================================
-
 // Create logging resource group
 resource logRg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: 'rg-${name}-log-${environment}'
