@@ -3,9 +3,9 @@
 
 @description('Location to deploy the environment resources')
 param location string = resourceGroup().location
+
 param environment string = 'Development'
 param name string = 'Dev_LogicApp'
-param logwsid string
 
 // Set minimum of 2 worker nodes in production
 var minimumElasticSize = 1
@@ -44,20 +44,20 @@ properties: {
 }
 
 // Create application insights
-resource appi 'Microsoft.Insights/components@2020-02-02' = {
-name: 'appi-${name}-logic-${environment}'
-location: location
-kind: 'web'
-properties: {
-  Application_Type: 'web'
-  Flow_Type: 'Bluefield'
-  publicNetworkAccessForIngestion: 'Enabled'
-  publicNetworkAccessForQuery: 'Enabled'
-  Request_Source: 'rest'
-  RetentionInDays: 30
-  WorkspaceResourceId: logwsid
-}
-}
+// resource appi 'Microsoft.Insights/components@2020-02-02' = {
+// name: 'appi-${name}-logic-${environment}'
+// location: location
+// kind: 'web'
+// properties: {
+//   Application_Type: 'web'
+//   Flow_Type: 'Bluefield'
+//   publicNetworkAccessForIngestion: 'Enabled'
+//   publicNetworkAccessForQuery: 'Enabled'
+//   Request_Source: 'rest'
+//   RetentionInDays: 30
+//   WorkspaceResourceId: logwsid
+// }
+// }
 
 // App service containing the workflow runtime
 resource site 'Microsoft.Web/sites@2021-02-01' = {
@@ -107,18 +107,18 @@ properties: {
         name: 'APP_KIND'
         value: 'workflowApp'
       }
-      {
-        name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-        value: appi.properties.InstrumentationKey
-      }
+      // {
+      //   name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+      //   value: appi.properties.InstrumentationKey
+      // }
       {
         name: 'ApplicationInsightsAgent_EXTENSION_VERSION'
         value: '~2'
       }
-      {
-        name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-        value: appi.properties.ConnectionString
-      }
+      // {
+      //   name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+      //   value: appi.properties.ConnectionString
+      // }
     ]
     use32BitWorkerProcess: true
   }
@@ -128,5 +128,5 @@ properties: {
 }
 
 // Return the Logic App service name and farm name
-output app string = site.name
-output plan string = plan.name
+// output app string = site.name
+// output plan string = plan.name
