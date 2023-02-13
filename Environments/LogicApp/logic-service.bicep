@@ -4,8 +4,8 @@
 @description('Location to deploy the environment resources')
 param location string = resourceGroup().location
 
-param environment string = 'Development'
-param name string = 'Dev_LogicApp'
+param environment string = 'development'
+param name string = 'dev_logicapp'
 
 // Set minimum of 2 worker nodes in production
 var minimumElasticSize = 1

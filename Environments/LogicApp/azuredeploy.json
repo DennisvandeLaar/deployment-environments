@@ -18,11 +18,11 @@
     },
     "environment": {
       "type": "string",
-      "defaultValue": "Development"
+      "defaultValue": "development"
     },
     "name": {
       "type": "string",
-      "defaultValue": "Dev_LogicApp"
+      "defaultValue": "dev_logicapp"
     }
   },
   "variables": {
