@@ -5,7 +5,7 @@
 param location string = resourceGroup().location
 
 param environment string = 'dev'
-param name string = 'dev_logicapp'
+param name string = 'devlogicapp'
 
 // Set minimum of 2 worker nodes in production
 var minimumElasticSize = 1
