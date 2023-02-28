@@ -2,25 +2,22 @@
 
 #az account set 
 
-#Set default config for resource group where the project resides
-az config set defaults.group=RG-DevCenter-Dennis
-
 #Set variables
-$resourcegroup_name = "RG-DevCenter-Dennis"
-$devCenter_name = "DevCenter-Dennis"
-$vaultname = "KeyVault-Dennis"
+$resourcegroup_name = "RG-DevCenter-YOURNAME"
+$devCenter_name = "DevCenter-YOURNAME"
+$vaultname = "KeyVault-YOURNAME"
 $location = "westeurope"
-$project_name = "Project-Dennis"
-$catalog_name = "Catalog-Dennis"
-$subscriptionId = "b0a62e67-fe11-4a84-b57d-860652f00af3"
-$scope = "/subscriptions/b0a62e67-fe11-4a84-b57d-860652f00af3"
+$project_name = "Project-YOURNAME"
+$catalog_name = "Catalog-YOURNAME"
+$subscriptionId = "ADD YOUR SUBSCRIPTION ID"
+$scope = "/subscriptions/ADD YOUR SUBSCRIPTION ID"
 $gitUri = "https://github.com/DennisvandeLaar/deployment-environments.git"
-$secretUri = "https://keyvault-dennis.vault.azure.net/secrets/PAT-GH"
+$secretUri = "ADD YOUR SECRET IDENTIFIER"
 
 az group create -l $location -n $resourcegroup_name
 
 az keyvault create --location $location --name $vaultname --resource-group $resourcegroup_name
-$secret = az keyvault secret set --vault-name $vaultname --name "PAT-GH" --value "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" | ConvertFrom-Json
+$secret = az keyvault secret set --vault-name $vaultname --name "PAT-GH" --value "ADD YOUR PERSONAL ACCESS TOKEN" | ConvertFrom-Json
 #Todo: extract secret identifier --> requird to create a catalog
 
 $devcenter = az devcenter admin devcenter create --location $location --name $devCenter_name --resource-group $resourcegroup_name | ConvertFrom-Json
